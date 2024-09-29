@@ -1,0 +1,1567 @@
+# Configuration file of the Resources available in DASH-SoC
+# Lines that start with "#" are comments
+
+# Add a new resource using the keyword: add_new_resource
+# Always add MEMORY last as a special resource, which will be used for communication 
+# and does not support any functionality
+# The following lines must have the attributes below
+# The format: add_new_resource $resource_type (string)  $resource_name (string) $resource_id (int) $capacity (int) $num_of_supported_functionality (int) $DVFS_mode (string)
+#             $functionality_name (string) $execution_time (float)
+# Note: for type, use the following abbreviations
+#       central processing unit --> CPU
+#       Arm LITTLE cluster      --> LTL
+#       Arm big cluster         --> BIG
+#       accelerator             --> ACC
+#       memory                  --> MEM
+#
+# opp $frequency (int - MHz) $voltage (int - mV), defines the Operating Performance Points (OPPs) with frequency and voltage tuples
+#
+# trip_freq $trip_1 $trip_2 $trip_3 ..., defines the frequencies that are set at each trip point if throttling is enabled. "-1" means that the frequency is not modified
+#
+# power_profile $frequency $power_1 $power_2 $power_3 ... $power_max_capacity
+# e.g., power_profile 1000 0.19 0.29 0.35 0.40. At 1GHz, the power for 1 core is 0.19W, 2 cores is 0.29W, and so on.
+#
+# PG_profile $frequency $power_1 $power_2 $power_3 ... $power_max_capacity
+#
+# Example: The following lines add a new CPU with name=P1, ID=0, capacity=1 and
+#          that can run 3 different tasks using "performance" DVFS mode
+#
+#          add_new_resource CPU P1 0 1 3 performance
+#          opp 1000 1150
+#          trip_freq -1 -1 -1
+#          power_profile 1000 0.1
+#          PG_profile 1000 0.1
+#          scrambler 12
+#          reed_solomon_encoder 15
+#          bpsk_modulation 18
+#
+# After adding resources, use keyword comm_band to add communication bandwidth
+# between resources
+# The format: comm_band $source_id (int) $destination_id (int) bandwidth (int)
+# Example: The following line adds communication bandwidth between resource 0 (source)
+#          and resource 1 (destination)
+#
+#          comm_band 0 1 5
+
+add_new_resource BIG A72_0 0 4 65 performance
+opp 600 900
+opp 800 950
+opp 1600 1175
+opp 2000 1400
+trip_freq 1700 1100 700
+DTPM_trip_freq 1300 1100 700
+power_profile 800 0.95 1.40 1.68 1.88
+PG_profile 1000 0.69 1.06 1.45 1.88
+power_profile 2000 3.42 5.15 6.15 6.91
+PG_profile 2000 2.39 3.83 5.23 6.91
+scrambler_encoder 10
+interleaver_1 2
+qpsk_1 6
+pilot_insertion_1 3
+ifft_1 95
+crc_1 3
+interleaver_2 4
+qpsk_2 6
+pilot_insertion_2 2
+ifft_2 95
+crc_2 3
+interleaver_3 4
+qpsk_3 6
+pilot_insertion_3 3
+ifft_3 95
+crc_3 3
+interleaver_4 4
+qpsk_4 6
+pilot_insertion_4 3
+ifft_4 95
+crc_4 3
+interleaver_5 4
+qpsk_5 8
+pilot_insertion_5 3
+ifft_5 95
+crc_5 3
+max_detect 12
+end 0
+match_filter 5
+payload_extraction_1 4
+fft_1 95
+pilot_1 4
+qpsk_demodulation_1 75
+deinterleaver_1 9
+format_conversion_1 4
+payload_extraction_2 4
+fft_2 95
+pilot_2 4
+xcorr_vector_complex_conj_mul 5
+qpsk_demodulation_2 75
+deinterleaver_2 8
+format_conversion_2 4
+payload_extraction_3 4
+fft_3 95
+pilot_3 4
+qpsk_demodulation_3 75
+deinterleaver_3 9
+format_conversion_3 4
+payload_extraction_4 4
+fft_4 95
+pilot_4 4
+qpsk_demodulation_4 75
+deinterleaver_4 9
+format_conversion_4 4
+payload_extraction_5 4
+fft_5 95
+pilot_5 4
+ST 0
+LFM 60
+qpsk_demodulation_5 75
+deinterleaver_5 9
+format_conversion_5 4
+viterbi_decoder 200
+descrambler 2
+message_decode 40
+
+add_new_resource BIG A53_0 1 4 72 performance
+opp 500 962
+opp 800 1075
+opp 1100 1200
+opp 1500 1300
+trip_freq -1 1200 600
+power_profile 1000 0.19 0.29 0.45 0.50
+PG_profile 1000 0.13 0.23 0.31 0.50
+power_profile 1500 0.39 0.59 0.72 0.91
+PG_profile 1500 0.27 0.46 0.63 0.91
+scrambler_encoder 22
+interleaver_1 10
+qpsk_1 15
+ST 0 0
+pilot_insertion_1 5 5
+ifft_1 296 296
+crc_1 5 5
+max_detect 18 18
+interleaver_2 10 10
+qpsk_2 15 15
+LFM 85 85
+pilot_insertion_2 5 5
+xcorr_vector_complex_conj_mul 6 6
+ifft_2 296 296
+crc_2 5 5
+interleaver_3 10 10
+qpsk_3 15 15
+pilot_insertion_3 5 5
+ifft_3 296 296
+crc_3 5 5
+interleaver_4 10 10
+qpsk_4 15 15
+pilot_insertion_4 5 5
+ifft_4 296 296
+crc_4 5 5
+interleaver_5 10 10
+qpsk_5 15 15
+pilot_insertion_5 5 5
+ifft_5 296 296
+crc_5 5 5
+end 0 0
+match_filter 16 16
+payload_extraction_1 8 8
+fft_1 289 289
+pilot_1 6 6
+qpsk_demodulation_1 191 191
+deinterleaver_1 16 16
+format_conversion_1 7 7
+payload_extraction_2 8 8
+fft_2 289 289
+pilot_2 6 6
+qpsk_demodulation_2 191 191
+deinterleaver_2 16 16
+format_conversion_2 7 7
+payload_extraction_3 8 8
+fft_3 289 289
+pilot_3 6 6
+qpsk_demodulation_3 191 191
+deinterleaver_3 16 16
+format_conversion_3 7 7
+payload_extraction_4 8 8
+fft_4 289 289
+pilot_4 6 6
+qpsk_demodulation_4 191 191
+deinterleaver_4 16 16
+format_conversion_4 7 7
+payload_extraction_5 8 8
+fft_5 289 289
+pilot_5 6 6
+qpsk_demodulation_5 191 191
+deinterleaver_5 16 16
+format_conversion_5 7 7
+viterbi_decoder 1828 20
+descrambler 3 3
+message_decode 90
+start_task 0 0
+cover_signal 0 0
+message_signal 0 0
+hermitian_opt 23 23
+matrix_opts 25 25
+matrix_multiplication 17 17
+matrix_subtraction 72 72
+
+add_new_resource ACC_1 MM_0 2 1 3 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.050
+PG_profile 1000 0.050
+CMM_1 22 22
+CMM_2 22 22
+CMM_3 22 22
+
+add_new_resource ACC_1 MM_1 3 1 3 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.050
+PG_profile 1000 0.050
+CMM_1 22 22
+CMM_2 22 22
+CMM_3 22 22
+
+add_new_resource ACC_2 FFT_0 4 1 269 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.0913
+PG_profile 1000 0.0913
+xcorr_fft0_0 6
+xcorr_fft1_0 6
+xcorr_ifft_0 6
+xcorr_fft0_1 6
+xcorr_fft1_1 6
+xcorr_ifft_1 6
+xcorr_fft0_2 6
+xcorr_fft1_2 6
+xcorr_ifft_2 6
+xcorr_fft0_3 6
+xcorr_fft1_3 6
+xcorr_ifft_3 6
+xcorr_fft0_4 6
+xcorr_fft1_4 6
+xcorr_ifft_4 6
+xcorr_fft0_5 6
+xcorr_fft1_5 6
+xcorr_ifft_5 6
+xcorr_fft0_6 6
+xcorr_fft1_6 6
+xcorr_ifft_6 6
+xcorr_fft0_7 6
+xcorr_fft1_7 6
+xcorr_ifft_7 6
+xcorr_fft0_8 6
+xcorr_fft1_8 6
+xcorr_ifft_8 6
+xcorr_fft0_9 6
+xcorr_fft1_9 6
+xcorr_ifft_9 6
+xcorr_fft0_10 6
+xcorr_fft1_10 6
+xcorr_ifft_10 6
+xcorr_fft0_11 6
+xcorr_fft1_11 6
+xcorr_ifft_11 6
+xcorr_fft0_12 6
+xcorr_fft1_12 6
+xcorr_ifft_12 6
+xcorr_fft0_13 6
+xcorr_fft1_13 6
+xcorr_ifft_13 6
+xcorr_fft0_14 6
+xcorr_fft1_14 6
+xcorr_ifft_14 6
+xcorr_fft0_15 6
+xcorr_fft1_15 6
+xcorr_ifft_15 6
+xcorr_fft0_16 6
+xcorr_fft1_16 6
+xcorr_ifft_16 6
+xcorr_fft0_17 6
+xcorr_fft1_17 6
+xcorr_ifft_17 6
+xcorr_fft0_18 6
+xcorr_fft1_18 6
+xcorr_ifft_18 6
+xcorr_fft0_19 6
+xcorr_fft1_19 6
+xcorr_ifft_19 6
+xcorr_fft0_20 6
+xcorr_fft1_20 6
+xcorr_ifft_20 6
+xcorr_fft0_21 6
+xcorr_fft1_21 6
+xcorr_ifft_21 6
+xcorr_fft0_22 6
+xcorr_fft1_22 6
+xcorr_ifft_22 6
+xcorr_fft0_23 6
+xcorr_fft1_23 6
+xcorr_ifft_23 6
+xcorr_fft0_24 6
+xcorr_fft1_24 6
+xcorr_ifft_24 6
+xcorr_fft0_25 6
+xcorr_fft1_25 6
+xcorr_ifft_25 6
+xcorr_fft0_26 6
+xcorr_fft1_26 6
+xcorr_ifft_26 6
+xcorr_fft0_27 6
+xcorr_fft1_27 6
+xcorr_ifft_27 6
+xcorr_fft0_28 6
+xcorr_fft1_28 6
+xcorr_ifft_28 6
+xcorr_fft0_29 6
+xcorr_fft1_29 6
+xcorr_ifft_29 6
+xcorr_fft0_30 6
+xcorr_fft1_30 6
+xcorr_ifft_30 6
+xcorr_fft0_31 6
+xcorr_fft1_31 6
+xcorr_ifft_31 6
+xcorr_fft0_32 6
+xcorr_fft1_32 6
+xcorr_ifft_32 6
+xcorr_fft0_33 6
+xcorr_fft1_33 6
+xcorr_ifft_33 6
+xcorr_fft0_34 6
+xcorr_fft1_34 6
+xcorr_ifft_34 6
+xcorr_fft0_35 6
+xcorr_fft1_35 6
+xcorr_ifft_35 6
+xcorr_fft0_36 6
+xcorr_fft1_36 6
+xcorr_ifft_36 6
+xcorr_fft0_37 6
+xcorr_fft1_37 6
+xcorr_ifft_37 6
+xcorr_fft0_38 6
+xcorr_fft1_38 6
+xcorr_ifft_38 6
+xcorr_fft0_39 6
+xcorr_fft1_39 6
+xcorr_ifft_39 6
+xcorr_fft0_40 6
+xcorr_fft1_40 6
+xcorr_ifft_40 6
+xcorr_fft0_41 6
+xcorr_fft1_41 6
+xcorr_ifft_41 6
+xcorr_fft0_42 6
+xcorr_fft1_42 6
+xcorr_ifft_42 6
+xcorr_fft0_43 6
+xcorr_fft1_43 6
+xcorr_ifft_43 6
+xcorr_fft0_44 6
+xcorr_fft1_44 6
+xcorr_ifft_44 6
+xcorr_fft0_45 6
+xcorr_fft1_45 6
+xcorr_ifft_45 6
+xcorr_fft0_46 6
+xcorr_fft1_46 6
+xcorr_ifft_46 6
+xcorr_fft0_47 6
+xcorr_fft1_47 6
+xcorr_ifft_47 6
+xcorr_fft0_48 6
+xcorr_fft1_48 6
+xcorr_ifft_48 6
+xcorr_fft0_49 6
+xcorr_fft1_49 6
+xcorr_ifft_49 6
+xcorr_fft0_50 6
+xcorr_fft1_50 6
+xcorr_ifft_50 6
+xcorr_fft0_51 6
+xcorr_fft1_51 6
+xcorr_ifft_51 6
+xcorr_fft0_52 6
+xcorr_fft1_52 6
+xcorr_ifft_52 6
+xcorr_fft0_53 6
+xcorr_fft1_53 6
+xcorr_ifft_53 6
+xcorr_fft0_54 6
+xcorr_fft1_54 6
+xcorr_ifft_54 6
+xcorr_fft0_55 6
+xcorr_fft1_55 6
+xcorr_ifft_55 6
+xcorr_fft0_56 6
+xcorr_fft1_56 6
+xcorr_ifft_56 6
+xcorr_fft0_57 6
+xcorr_fft1_57 6
+xcorr_ifft_57 6
+xcorr_fft0_58 6
+xcorr_fft1_58 6
+xcorr_ifft_58 6
+xcorr_fft0_59 6
+xcorr_fft1_59 6
+xcorr_ifft_59 6
+xcorr_fft0_60 6
+xcorr_fft1_60 6
+xcorr_ifft_60 6
+xcorr_fft0_61 6
+xcorr_fft1_61 6
+xcorr_ifft_61 6
+xcorr_fft0_62 6
+xcorr_fft1_62 6
+xcorr_ifft_62 6
+xcorr_fft0_63 6
+xcorr_fft1_63 6
+xcorr_ifft_63 6
+fft3_0 6
+fft3_1 6
+fft3_2 6
+fft3_3 6
+fft3_4 6
+fft3_5 6
+fft3_6 6
+fft3_7 6
+fft3_8 6
+fft3_9 6
+fft3_10 6
+fft3_11 6
+fft3_12 6
+fft3_13 6
+fft3_14 6
+fft3_15 6
+fft3_16 6
+fft3_17 6
+fft3_18 6
+fft3_19 6
+fft3_20 6
+fft3_21 6
+fft3_22 6
+fft3_23 6
+fft3_24 6
+fft3_25 6
+fft3_26 6
+fft3_27 6
+fft3_28 6
+fft3_29 6
+fft3_30 6
+fft3_31 6
+fft3_32 6
+fft3_33 6
+fft3_34 6
+fft3_35 6
+fft3_36 6
+fft3_37 6
+fft3_38 6
+fft3_39 6
+fft3_40 6
+fft3_41 6
+fft3_42 6
+fft3_43 6
+fft3_44 6
+fft3_45 6
+fft3_46 6
+fft3_47 6
+fft3_48 6
+fft3_49 6
+fft3_50 6
+fft3_51 6
+fft3_52 6
+fft3_53 6
+fft3_54 6
+fft3_55 6
+fft3_56 6
+fft3_57 6
+fft3_58 6
+fft3_59 6
+fft3_60 6
+fft3_61 6
+fft3_62 6
+fft3_63 6
+xcorr_fft0 30
+xcorr_fft1 30
+xcorr_ifft 30
+ifft_1 16
+ifft_2 16
+ifft_3 16
+ifft_4 16
+ifft_5 16
+fft_1 12
+fft_2 12
+fft_3 12
+fft_4 12
+fft_5 12
+
+
+add_new_resource ACC_2 FFT_1 5 1 269 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.0913
+PG_profile 1000 0.0913
+xcorr_fft0_0 6
+xcorr_fft1_0 6
+xcorr_ifft_0 6
+xcorr_fft0_1 6
+xcorr_fft1_1 6
+xcorr_ifft_1 6
+xcorr_fft0_2 6
+xcorr_fft1_2 6
+xcorr_ifft_2 6
+xcorr_fft0_3 6
+xcorr_fft1_3 6
+xcorr_ifft_3 6
+xcorr_fft0_4 6
+xcorr_fft1_4 6
+xcorr_ifft_4 6
+xcorr_fft0_5 6
+xcorr_fft1_5 6
+xcorr_ifft_5 6
+xcorr_fft0_6 6
+xcorr_fft1_6 6
+xcorr_ifft_6 6
+xcorr_fft0_7 6
+xcorr_fft1_7 6
+xcorr_ifft_7 6
+xcorr_fft0_8 6
+xcorr_fft1_8 6
+xcorr_ifft_8 6
+xcorr_fft0_9 6
+xcorr_fft1_9 6
+xcorr_ifft_9 6
+xcorr_fft0_10 6
+xcorr_fft1_10 6
+xcorr_ifft_10 6
+xcorr_fft0_11 6
+xcorr_fft1_11 6
+xcorr_ifft_11 6
+xcorr_fft0_12 6
+xcorr_fft1_12 6
+xcorr_ifft_12 6
+xcorr_fft0_13 6
+xcorr_fft1_13 6
+xcorr_ifft_13 6
+xcorr_fft0_14 6
+xcorr_fft1_14 6
+xcorr_ifft_14 6
+xcorr_fft0_15 6
+xcorr_fft1_15 6
+xcorr_ifft_15 6
+xcorr_fft0_16 6
+xcorr_fft1_16 6
+xcorr_ifft_16 6
+xcorr_fft0_17 6
+xcorr_fft1_17 6
+xcorr_ifft_17 6
+xcorr_fft0_18 6
+xcorr_fft1_18 6
+xcorr_ifft_18 6
+xcorr_fft0_19 6
+xcorr_fft1_19 6
+xcorr_ifft_19 6
+xcorr_fft0_20 6
+xcorr_fft1_20 6
+xcorr_ifft_20 6
+xcorr_fft0_21 6
+xcorr_fft1_21 6
+xcorr_ifft_21 6
+xcorr_fft0_22 6
+xcorr_fft1_22 6
+xcorr_ifft_22 6
+xcorr_fft0_23 6
+xcorr_fft1_23 6
+xcorr_ifft_23 6
+xcorr_fft0_24 6
+xcorr_fft1_24 6
+xcorr_ifft_24 6
+xcorr_fft0_25 6
+xcorr_fft1_25 6
+xcorr_ifft_25 6
+xcorr_fft0_26 6
+xcorr_fft1_26 6
+xcorr_ifft_26 6
+xcorr_fft0_27 6
+xcorr_fft1_27 6
+xcorr_ifft_27 6
+xcorr_fft0_28 6
+xcorr_fft1_28 6
+xcorr_ifft_28 6
+xcorr_fft0_29 6
+xcorr_fft1_29 6
+xcorr_ifft_29 6
+xcorr_fft0_30 6
+xcorr_fft1_30 6
+xcorr_ifft_30 6
+xcorr_fft0_31 6
+xcorr_fft1_31 6
+xcorr_ifft_31 6
+xcorr_fft0_32 6
+xcorr_fft1_32 6
+xcorr_ifft_32 6
+xcorr_fft0_33 6
+xcorr_fft1_33 6
+xcorr_ifft_33 6
+xcorr_fft0_34 6
+xcorr_fft1_34 6
+xcorr_ifft_34 6
+xcorr_fft0_35 6
+xcorr_fft1_35 6
+xcorr_ifft_35 6
+xcorr_fft0_36 6
+xcorr_fft1_36 6
+xcorr_ifft_36 6
+xcorr_fft0_37 6
+xcorr_fft1_37 6
+xcorr_ifft_37 6
+xcorr_fft0_38 6
+xcorr_fft1_38 6
+xcorr_ifft_38 6
+xcorr_fft0_39 6
+xcorr_fft1_39 6
+xcorr_ifft_39 6
+xcorr_fft0_40 6
+xcorr_fft1_40 6
+xcorr_ifft_40 6
+xcorr_fft0_41 6
+xcorr_fft1_41 6
+xcorr_ifft_41 6
+xcorr_fft0_42 6
+xcorr_fft1_42 6
+xcorr_ifft_42 6
+xcorr_fft0_43 6
+xcorr_fft1_43 6
+xcorr_ifft_43 6
+xcorr_fft0_44 6
+xcorr_fft1_44 6
+xcorr_ifft_44 6
+xcorr_fft0_45 6
+xcorr_fft1_45 6
+xcorr_ifft_45 6
+xcorr_fft0_46 6
+xcorr_fft1_46 6
+xcorr_ifft_46 6
+xcorr_fft0_47 6
+xcorr_fft1_47 6
+xcorr_ifft_47 6
+xcorr_fft0_48 6
+xcorr_fft1_48 6
+xcorr_ifft_48 6
+xcorr_fft0_49 6
+xcorr_fft1_49 6
+xcorr_ifft_49 6
+xcorr_fft0_50 6
+xcorr_fft1_50 6
+xcorr_ifft_50 6
+xcorr_fft0_51 6
+xcorr_fft1_51 6
+xcorr_ifft_51 6
+xcorr_fft0_52 6
+xcorr_fft1_52 6
+xcorr_ifft_52 6
+xcorr_fft0_53 6
+xcorr_fft1_53 6
+xcorr_ifft_53 6
+xcorr_fft0_54 6
+xcorr_fft1_54 6
+xcorr_ifft_54 6
+xcorr_fft0_55 6
+xcorr_fft1_55 6
+xcorr_ifft_55 6
+xcorr_fft0_56 6
+xcorr_fft1_56 6
+xcorr_ifft_56 6
+xcorr_fft0_57 6
+xcorr_fft1_57 6
+xcorr_ifft_57 6
+xcorr_fft0_58 6
+xcorr_fft1_58 6
+xcorr_ifft_58 6
+xcorr_fft0_59 6
+xcorr_fft1_59 6
+xcorr_ifft_59 6
+xcorr_fft0_60 6
+xcorr_fft1_60 6
+xcorr_ifft_60 6
+xcorr_fft0_61 6
+xcorr_fft1_61 6
+xcorr_ifft_61 6
+xcorr_fft0_62 6
+xcorr_fft1_62 6
+xcorr_ifft_62 6
+xcorr_fft0_63 6
+xcorr_fft1_63 6
+xcorr_ifft_63 6
+fft3_0 6
+fft3_1 6
+fft3_2 6
+fft3_3 6
+fft3_4 6
+fft3_5 6
+fft3_6 6
+fft3_7 6
+fft3_8 6
+fft3_9 6
+fft3_10 6
+fft3_11 6
+fft3_12 6
+fft3_13 6
+fft3_14 6
+fft3_15 6
+fft3_16 6
+fft3_17 6
+fft3_18 6
+fft3_19 6
+fft3_20 6
+fft3_21 6
+fft3_22 6
+fft3_23 6
+fft3_24 6
+fft3_25 6
+fft3_26 6
+fft3_27 6
+fft3_28 6
+fft3_29 6
+fft3_30 6
+fft3_31 6
+fft3_32 6
+fft3_33 6
+fft3_34 6
+fft3_35 6
+fft3_36 6
+fft3_37 6
+fft3_38 6
+fft3_39 6
+fft3_40 6
+fft3_41 6
+fft3_42 6
+fft3_43 6
+fft3_44 6
+fft3_45 6
+fft3_46 6
+fft3_47 6
+fft3_48 6
+fft3_49 6
+fft3_50 6
+fft3_51 6
+fft3_52 6
+fft3_53 6
+fft3_54 6
+fft3_55 6
+fft3_56 6
+fft3_57 6
+fft3_58 6
+fft3_59 6
+fft3_60 6
+fft3_61 6
+fft3_62 6
+fft3_63 6
+xcorr_fft0 30
+xcorr_fft1 30
+xcorr_ifft 30
+ifft_1 16
+ifft_2 16
+ifft_3 16
+ifft_4 16
+ifft_5 16
+fft_1 12
+fft_2 12
+fft_3 12
+fft_4 12
+fft_5 12
+
+
+add_new_resource ACC_2 FFT_2 6 1 269 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.0913
+PG_profile 1000 0.0913
+xcorr_fft0_0 6
+xcorr_fft1_0 6
+xcorr_ifft_0 6
+xcorr_fft0_1 6
+xcorr_fft1_1 6
+xcorr_ifft_1 6
+xcorr_fft0_2 6
+xcorr_fft1_2 6
+xcorr_ifft_2 6
+xcorr_fft0_3 6
+xcorr_fft1_3 6
+xcorr_ifft_3 6
+xcorr_fft0_4 6
+xcorr_fft1_4 6
+xcorr_ifft_4 6
+xcorr_fft0_5 6
+xcorr_fft1_5 6
+xcorr_ifft_5 6
+xcorr_fft0_6 6
+xcorr_fft1_6 6
+xcorr_ifft_6 6
+xcorr_fft0_7 6
+xcorr_fft1_7 6
+xcorr_ifft_7 6
+xcorr_fft0_8 6
+xcorr_fft1_8 6
+xcorr_ifft_8 6
+xcorr_fft0_9 6
+xcorr_fft1_9 6
+xcorr_ifft_9 6
+xcorr_fft0_10 6
+xcorr_fft1_10 6
+xcorr_ifft_10 6
+xcorr_fft0_11 6
+xcorr_fft1_11 6
+xcorr_ifft_11 6
+xcorr_fft0_12 6
+xcorr_fft1_12 6
+xcorr_ifft_12 6
+xcorr_fft0_13 6
+xcorr_fft1_13 6
+xcorr_ifft_13 6
+xcorr_fft0_14 6
+xcorr_fft1_14 6
+xcorr_ifft_14 6
+xcorr_fft0_15 6
+xcorr_fft1_15 6
+xcorr_ifft_15 6
+xcorr_fft0_16 6
+xcorr_fft1_16 6
+xcorr_ifft_16 6
+xcorr_fft0_17 6
+xcorr_fft1_17 6
+xcorr_ifft_17 6
+xcorr_fft0_18 6
+xcorr_fft1_18 6
+xcorr_ifft_18 6
+xcorr_fft0_19 6
+xcorr_fft1_19 6
+xcorr_ifft_19 6
+xcorr_fft0_20 6
+xcorr_fft1_20 6
+xcorr_ifft_20 6
+xcorr_fft0_21 6
+xcorr_fft1_21 6
+xcorr_ifft_21 6
+xcorr_fft0_22 6
+xcorr_fft1_22 6
+xcorr_ifft_22 6
+xcorr_fft0_23 6
+xcorr_fft1_23 6
+xcorr_ifft_23 6
+xcorr_fft0_24 6
+xcorr_fft1_24 6
+xcorr_ifft_24 6
+xcorr_fft0_25 6
+xcorr_fft1_25 6
+xcorr_ifft_25 6
+xcorr_fft0_26 6
+xcorr_fft1_26 6
+xcorr_ifft_26 6
+xcorr_fft0_27 6
+xcorr_fft1_27 6
+xcorr_ifft_27 6
+xcorr_fft0_28 6
+xcorr_fft1_28 6
+xcorr_ifft_28 6
+xcorr_fft0_29 6
+xcorr_fft1_29 6
+xcorr_ifft_29 6
+xcorr_fft0_30 6
+xcorr_fft1_30 6
+xcorr_ifft_30 6
+xcorr_fft0_31 6
+xcorr_fft1_31 6
+xcorr_ifft_31 6
+xcorr_fft0_32 6
+xcorr_fft1_32 6
+xcorr_ifft_32 6
+xcorr_fft0_33 6
+xcorr_fft1_33 6
+xcorr_ifft_33 6
+xcorr_fft0_34 6
+xcorr_fft1_34 6
+xcorr_ifft_34 6
+xcorr_fft0_35 6
+xcorr_fft1_35 6
+xcorr_ifft_35 6
+xcorr_fft0_36 6
+xcorr_fft1_36 6
+xcorr_ifft_36 6
+xcorr_fft0_37 6
+xcorr_fft1_37 6
+xcorr_ifft_37 6
+xcorr_fft0_38 6
+xcorr_fft1_38 6
+xcorr_ifft_38 6
+xcorr_fft0_39 6
+xcorr_fft1_39 6
+xcorr_ifft_39 6
+xcorr_fft0_40 6
+xcorr_fft1_40 6
+xcorr_ifft_40 6
+xcorr_fft0_41 6
+xcorr_fft1_41 6
+xcorr_ifft_41 6
+xcorr_fft0_42 6
+xcorr_fft1_42 6
+xcorr_ifft_42 6
+xcorr_fft0_43 6
+xcorr_fft1_43 6
+xcorr_ifft_43 6
+xcorr_fft0_44 6
+xcorr_fft1_44 6
+xcorr_ifft_44 6
+xcorr_fft0_45 6
+xcorr_fft1_45 6
+xcorr_ifft_45 6
+xcorr_fft0_46 6
+xcorr_fft1_46 6
+xcorr_ifft_46 6
+xcorr_fft0_47 6
+xcorr_fft1_47 6
+xcorr_ifft_47 6
+xcorr_fft0_48 6
+xcorr_fft1_48 6
+xcorr_ifft_48 6
+xcorr_fft0_49 6
+xcorr_fft1_49 6
+xcorr_ifft_49 6
+xcorr_fft0_50 6
+xcorr_fft1_50 6
+xcorr_ifft_50 6
+xcorr_fft0_51 6
+xcorr_fft1_51 6
+xcorr_ifft_51 6
+xcorr_fft0_52 6
+xcorr_fft1_52 6
+xcorr_ifft_52 6
+xcorr_fft0_53 6
+xcorr_fft1_53 6
+xcorr_ifft_53 6
+xcorr_fft0_54 6
+xcorr_fft1_54 6
+xcorr_ifft_54 6
+xcorr_fft0_55 6
+xcorr_fft1_55 6
+xcorr_ifft_55 6
+xcorr_fft0_56 6
+xcorr_fft1_56 6
+xcorr_ifft_56 6
+xcorr_fft0_57 6
+xcorr_fft1_57 6
+xcorr_ifft_57 6
+xcorr_fft0_58 6
+xcorr_fft1_58 6
+xcorr_ifft_58 6
+xcorr_fft0_59 6
+xcorr_fft1_59 6
+xcorr_ifft_59 6
+xcorr_fft0_60 6
+xcorr_fft1_60 6
+xcorr_ifft_60 6
+xcorr_fft0_61 6
+xcorr_fft1_61 6
+xcorr_ifft_61 6
+xcorr_fft0_62 6
+xcorr_fft1_62 6
+xcorr_ifft_62 6
+xcorr_fft0_63 6
+xcorr_fft1_63 6
+xcorr_ifft_63 6
+fft3_0 6
+fft3_1 6
+fft3_2 6
+fft3_3 6
+fft3_4 6
+fft3_5 6
+fft3_6 6
+fft3_7 6
+fft3_8 6
+fft3_9 6
+fft3_10 6
+fft3_11 6
+fft3_12 6
+fft3_13 6
+fft3_14 6
+fft3_15 6
+fft3_16 6
+fft3_17 6
+fft3_18 6
+fft3_19 6
+fft3_20 6
+fft3_21 6
+fft3_22 6
+fft3_23 6
+fft3_24 6
+fft3_25 6
+fft3_26 6
+fft3_27 6
+fft3_28 6
+fft3_29 6
+fft3_30 6
+fft3_31 6
+fft3_32 6
+fft3_33 6
+fft3_34 6
+fft3_35 6
+fft3_36 6
+fft3_37 6
+fft3_38 6
+fft3_39 6
+fft3_40 6
+fft3_41 6
+fft3_42 6
+fft3_43 6
+fft3_44 6
+fft3_45 6
+fft3_46 6
+fft3_47 6
+fft3_48 6
+fft3_49 6
+fft3_50 6
+fft3_51 6
+fft3_52 6
+fft3_53 6
+fft3_54 6
+fft3_55 6
+fft3_56 6
+fft3_57 6
+fft3_58 6
+fft3_59 6
+fft3_60 6
+fft3_61 6
+fft3_62 6
+fft3_63 6
+xcorr_fft0 30
+xcorr_fft1 30
+xcorr_ifft 30
+ifft_1 16
+ifft_2 16
+ifft_3 16
+ifft_4 16
+ifft_5 16
+fft_1 12
+fft_2 12
+fft_3 12
+fft_4 12
+fft_5 12
+
+
+add_new_resource ACC_2 FFT_3 7 1 269 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.0913
+PG_profile 1000 0.0913
+xcorr_fft0_0 6
+xcorr_fft1_0 6
+xcorr_ifft_0 6
+xcorr_fft0_1 6
+xcorr_fft1_1 6
+xcorr_ifft_1 6
+xcorr_fft0_2 6
+xcorr_fft1_2 6
+xcorr_ifft_2 6
+xcorr_fft0_3 6
+xcorr_fft1_3 6
+xcorr_ifft_3 6
+xcorr_fft0_4 6
+xcorr_fft1_4 6
+xcorr_ifft_4 6
+xcorr_fft0_5 6
+xcorr_fft1_5 6
+xcorr_ifft_5 6
+xcorr_fft0_6 6
+xcorr_fft1_6 6
+xcorr_ifft_6 6
+xcorr_fft0_7 6
+xcorr_fft1_7 6
+xcorr_ifft_7 6
+xcorr_fft0_8 6
+xcorr_fft1_8 6
+xcorr_ifft_8 6
+xcorr_fft0_9 6
+xcorr_fft1_9 6
+xcorr_ifft_9 6
+xcorr_fft0_10 6
+xcorr_fft1_10 6
+xcorr_ifft_10 6
+xcorr_fft0_11 6
+xcorr_fft1_11 6
+xcorr_ifft_11 6
+xcorr_fft0_12 6
+xcorr_fft1_12 6
+xcorr_ifft_12 6
+xcorr_fft0_13 6
+xcorr_fft1_13 6
+xcorr_ifft_13 6
+xcorr_fft0_14 6
+xcorr_fft1_14 6
+xcorr_ifft_14 6
+xcorr_fft0_15 6
+xcorr_fft1_15 6
+xcorr_ifft_15 6
+xcorr_fft0_16 6
+xcorr_fft1_16 6
+xcorr_ifft_16 6
+xcorr_fft0_17 6
+xcorr_fft1_17 6
+xcorr_ifft_17 6
+xcorr_fft0_18 6
+xcorr_fft1_18 6
+xcorr_ifft_18 6
+xcorr_fft0_19 6
+xcorr_fft1_19 6
+xcorr_ifft_19 6
+xcorr_fft0_20 6
+xcorr_fft1_20 6
+xcorr_ifft_20 6
+xcorr_fft0_21 6
+xcorr_fft1_21 6
+xcorr_ifft_21 6
+xcorr_fft0_22 6
+xcorr_fft1_22 6
+xcorr_ifft_22 6
+xcorr_fft0_23 6
+xcorr_fft1_23 6
+xcorr_ifft_23 6
+xcorr_fft0_24 6
+xcorr_fft1_24 6
+xcorr_ifft_24 6
+xcorr_fft0_25 6
+xcorr_fft1_25 6
+xcorr_ifft_25 6
+xcorr_fft0_26 6
+xcorr_fft1_26 6
+xcorr_ifft_26 6
+xcorr_fft0_27 6
+xcorr_fft1_27 6
+xcorr_ifft_27 6
+xcorr_fft0_28 6
+xcorr_fft1_28 6
+xcorr_ifft_28 6
+xcorr_fft0_29 6
+xcorr_fft1_29 6
+xcorr_ifft_29 6
+xcorr_fft0_30 6
+xcorr_fft1_30 6
+xcorr_ifft_30 6
+xcorr_fft0_31 6
+xcorr_fft1_31 6
+xcorr_ifft_31 6
+xcorr_fft0_32 6
+xcorr_fft1_32 6
+xcorr_ifft_32 6
+xcorr_fft0_33 6
+xcorr_fft1_33 6
+xcorr_ifft_33 6
+xcorr_fft0_34 6
+xcorr_fft1_34 6
+xcorr_ifft_34 6
+xcorr_fft0_35 6
+xcorr_fft1_35 6
+xcorr_ifft_35 6
+xcorr_fft0_36 6
+xcorr_fft1_36 6
+xcorr_ifft_36 6
+xcorr_fft0_37 6
+xcorr_fft1_37 6
+xcorr_ifft_37 6
+xcorr_fft0_38 6
+xcorr_fft1_38 6
+xcorr_ifft_38 6
+xcorr_fft0_39 6
+xcorr_fft1_39 6
+xcorr_ifft_39 6
+xcorr_fft0_40 6
+xcorr_fft1_40 6
+xcorr_ifft_40 6
+xcorr_fft0_41 6
+xcorr_fft1_41 6
+xcorr_ifft_41 6
+xcorr_fft0_42 6
+xcorr_fft1_42 6
+xcorr_ifft_42 6
+xcorr_fft0_43 6
+xcorr_fft1_43 6
+xcorr_ifft_43 6
+xcorr_fft0_44 6
+xcorr_fft1_44 6
+xcorr_ifft_44 6
+xcorr_fft0_45 6
+xcorr_fft1_45 6
+xcorr_ifft_45 6
+xcorr_fft0_46 6
+xcorr_fft1_46 6
+xcorr_ifft_46 6
+xcorr_fft0_47 6
+xcorr_fft1_47 6
+xcorr_ifft_47 6
+xcorr_fft0_48 6
+xcorr_fft1_48 6
+xcorr_ifft_48 6
+xcorr_fft0_49 6
+xcorr_fft1_49 6
+xcorr_ifft_49 6
+xcorr_fft0_50 6
+xcorr_fft1_50 6
+xcorr_ifft_50 6
+xcorr_fft0_51 6
+xcorr_fft1_51 6
+xcorr_ifft_51 6
+xcorr_fft0_52 6
+xcorr_fft1_52 6
+xcorr_ifft_52 6
+xcorr_fft0_53 6
+xcorr_fft1_53 6
+xcorr_ifft_53 6
+xcorr_fft0_54 6
+xcorr_fft1_54 6
+xcorr_ifft_54 6
+xcorr_fft0_55 6
+xcorr_fft1_55 6
+xcorr_ifft_55 6
+xcorr_fft0_56 6
+xcorr_fft1_56 6
+xcorr_ifft_56 6
+xcorr_fft0_57 6
+xcorr_fft1_57 6
+xcorr_ifft_57 6
+xcorr_fft0_58 6
+xcorr_fft1_58 6
+xcorr_ifft_58 6
+xcorr_fft0_59 6
+xcorr_fft1_59 6
+xcorr_ifft_59 6
+xcorr_fft0_60 6
+xcorr_fft1_60 6
+xcorr_ifft_60 6
+xcorr_fft0_61 6
+xcorr_fft1_61 6
+xcorr_ifft_61 6
+xcorr_fft0_62 6
+xcorr_fft1_62 6
+xcorr_ifft_62 6
+xcorr_fft0_63 6
+xcorr_fft1_63 6
+xcorr_ifft_63 6
+fft3_0 6
+fft3_1 6
+fft3_2 6
+fft3_3 6
+fft3_4 6
+fft3_5 6
+fft3_6 6
+fft3_7 6
+fft3_8 6
+fft3_9 6
+fft3_10 6
+fft3_11 6
+fft3_12 6
+fft3_13 6
+fft3_14 6
+fft3_15 6
+fft3_16 6
+fft3_17 6
+fft3_18 6
+fft3_19 6
+fft3_20 6
+fft3_21 6
+fft3_22 6
+fft3_23 6
+fft3_24 6
+fft3_25 6
+fft3_26 6
+fft3_27 6
+fft3_28 6
+fft3_29 6
+fft3_30 6
+fft3_31 6
+fft3_32 6
+fft3_33 6
+fft3_34 6
+fft3_35 6
+fft3_36 6
+fft3_37 6
+fft3_38 6
+fft3_39 6
+fft3_40 6
+fft3_41 6
+fft3_42 6
+fft3_43 6
+fft3_44 6
+fft3_45 6
+fft3_46 6
+fft3_47 6
+fft3_48 6
+fft3_49 6
+fft3_50 6
+fft3_51 6
+fft3_52 6
+fft3_53 6
+fft3_54 6
+fft3_55 6
+fft3_56 6
+fft3_57 6
+fft3_58 6
+fft3_59 6
+fft3_60 6
+fft3_61 6
+fft3_62 6
+fft3_63 6
+xcorr_fft0 30
+xcorr_fft1 30
+xcorr_ifft 30
+ifft_1 16
+ifft_2 16
+ifft_3 16
+ifft_4 16
+ifft_5 16
+fft_1 12
+fft_2 12
+fft_3 12
+fft_4 12
+fft_5 12
+
+add_new_resource ACC_3 VIT_0 8 1 1 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.05885
+PG_profile 1000 0.05885
+viterbi_decoder 2
+
+add_new_resource ACC_3 VIT_1 9 1 1 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.05885
+PG_profile 1000 0.05885
+viterbi_decoder 2
+
+add_new_resource ACC_4 SCE_0 10 1 1 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.050
+PG_profile 1000 0.050
+scrambler_encoder 2 2
+
+add_new_resource ACC_4 SCE_1 11 1 1 performance
+opp 1000 900
+trip_freq -1 -1 -1
+power_profile 1000 0.050
+PG_profile 1000 0.050
+scrambler_encoder 2 2
+
+add_new_resource MEM MEMORY 12 1 1 none
+None 0
+
+comm_band 0 0 100000
+comm_band 0 1 1000
+comm_band 0 2 1000
+comm_band 0 3 1000
+comm_band 0 4 1000
+comm_band 0 5 1000
+comm_band 0 6 1000
+comm_band 0 7 1000
+comm_band 0 8 1000
+comm_band 0 9 1000
+comm_band 0 10 10
+comm_band 0 11 10
+comm_band 0 12 10
+comm_band 0 13 10
+comm_band 0 14 1000
+comm_band 0 15 1000
+comm_band 0 16 1000
+comm_band 0 17 1000
+comm_band 0 18 1000
+
+comm_band 1 1 100000
+comm_band 1 2 1000
+comm_band 1 3 1000
+comm_band 1 4 1000
+comm_band 1 5 1000
+comm_band 1 6 1000
+comm_band 1 7 1000
+comm_band 1 8 1000
+comm_band 1 9 1000
+comm_band 1 10 10
+comm_band 1 11 10
+comm_band 1 12 10
+comm_band 1 13 10
+comm_band 1 14 1000
+comm_band 1 15 1000
+comm_band 1 16 1000
+comm_band 1 17 1000
+comm_band 1 18 1000
+
+comm_band 2 2 100000
+comm_band 2 3 1000
+comm_band 2 4 1000
+comm_band 2 5 1000
+comm_band 2 6 1000
+comm_band 2 7 1000
+comm_band 2 8 1000
+comm_band 2 9 1000
+comm_band 2 10 10
+comm_band 2 11 10
+comm_band 2 12 10
+comm_band 2 13 10
+comm_band 2 14 1000
+comm_band 2 15 1000
+comm_band 2 16 1000
+comm_band 2 17 1000
+comm_band 2 18 1000
+
+comm_band 3 3 100000
+comm_band 3 4 1000
+comm_band 3 5 1000
+comm_band 3 6 1000
+comm_band 3 7 1000
+comm_band 3 8 1000
+comm_band 3 9 1000
+comm_band 3 10 10
+comm_band 3 11 10
+comm_band 3 12 10
+comm_band 3 13 10
+comm_band 3 14 1000
+comm_band 3 15 1000
+comm_band 3 16 1000
+comm_band 3 17 1000
+comm_band 3 18 1000
+
+comm_band 4 4 100000
+comm_band 4 5 1000
+comm_band 4 6 1000
+comm_band 4 7 1000
+comm_band 4 8 1000
+comm_band 4 9 1000
+comm_band 4 10 10
+comm_band 4 11 10
+comm_band 4 12 10
+comm_band 4 13 10
+comm_band 4 14 1000
+comm_band 4 15 1000
+comm_band 4 16 1000
+comm_band 4 17 1000
+comm_band 4 18 1000
+
+comm_band 5 5 100000
+comm_band 5 6 1000
+comm_band 5 7 1000
+comm_band 5 8 1000
+comm_band 5 9 1000
+comm_band 5 10 10
+comm_band 5 11 10
+comm_band 5 12 10
+comm_band 5 13 10
+comm_band 5 14 1000
+comm_band 5 15 1000
+comm_band 5 16 1000
+comm_band 5 17 1000
+comm_band 5 18 1000
+
+comm_band 6 6 100000
+comm_band 6 7 1000
+comm_band 6 8 1000
+comm_band 6 9 1000
+comm_band 6 10 10
+comm_band 6 11 10
+comm_band 6 12 10
+comm_band 6 13 10
+comm_band 6 14 1000
+comm_band 6 15 1000
+comm_band 6 16 1000
+comm_band 6 17 1000
+comm_band 6 18 1000
+
+comm_band 7 7 100000
+comm_band 7 8 1000
+comm_band 7 9 1000
+comm_band 7 10 10
+comm_band 7 11 10
+comm_band 7 12 10
+comm_band 7 13 10
+comm_band 7 14 1000
+comm_band 7 15 1000
+comm_band 7 16 1000
+comm_band 7 17 1000
+comm_band 7 18 1000
+
+comm_band 8 8 100000
+comm_band 8 9 1000
+comm_band 8 10 1000
+comm_band 8 11 1000
+comm_band 8 12 1000
+comm_band 8 13 1000
+comm_band 8 14 1000
+comm_band 8 15 1000
+comm_band 8 16 1000
+comm_band 8 17 1000
+comm_band 8 18 1000
+
+
+comm_band 9 9 100000
+comm_band 9 10 1000
+comm_band 9 11 1000
+comm_band 9 12 1000
+comm_band 9 13 1000
+comm_band 9 14 1000
+comm_band 9 15 1000
+comm_band 9 16 1000
+comm_band 9 17 1000
+comm_band 9 18 1000
+
+comm_band 10 10 100000
+comm_band 10 11 1000
+comm_band 10 12 1000
+comm_band 10 13 1000
+comm_band 10 14 1000
+comm_band 10 15 1000
+comm_band 10 16 1000
+comm_band 10 17 1000
+comm_band 10 18 1000
+
+comm_band 11 11 100000
+comm_band 11 12 1000
+comm_band 11 13 1000
+comm_band 11 14 1000
+comm_band 11 15 1000
+comm_band 11 16 1000
+comm_band 11 17 1000
+comm_band 11 18 1000
+
+comm_band 12 12 100000
+comm_band 12 13 1000
+comm_band 12 14 1000
+comm_band 12 15 1000
+comm_band 12 16 1000
+comm_band 12 17 1000
+comm_band 12 18 1000
+
+comm_band 13 13 100000
+comm_band 13 14 1000
+comm_band 13 15 1000
+comm_band 13 16 1000
+comm_band 13 17 1000
+comm_band 13 18 1000
+
+comm_band 14 14 100000
+comm_band 14 15 1000
+comm_band 14 16 1000
+comm_band 14 17 1000
+comm_band 14 18 1000
+
+comm_band 15 15 100000
+comm_band 15 16 1000
+comm_band 15 17 1000
+comm_band 15 18 1000
+
+comm_band 16 16 100000
+comm_band 16 17 1000
+comm_band 16 18 1000
+
+comm_band 17 17 100000
+comm_band 17 18 1000
+
+comm_band 18 18 0
+

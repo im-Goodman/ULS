@@ -1,0 +1,59 @@
+This file keeps a list of common conventions used throughout DASH-Sim
+
+1- NAMING CONVENTIONS:
+
+- The class names are initial capitalized. When they contain two words,
+each one is initial capitalized
+
+Examples: Resource, ResourceManager
+
+- The object names are all lower case.
+When they contain more than one word, the words are separated by an underscore
+
+Examples: resource_matrix
+
+2- MESSAGES PRINTED BY DASH-SIM
+
+- DASH-Sim prints a variety of messages. An identifier at the beginning of
+the line describes the type of the message.
+
+    [D]: (D)ebugging messages. For example, messages printed during
+         parsing and elaboration related messages.
+    [I]: (I)nformation messages about the events that happen during the simulation
+    [E]: (E)rror messages
+
+3- PRIVATE VARIABLES
+
+From: https://docs.python.org/3/tutorial/classes.html
+
+“Private” instance variables that cannot be accessed except from inside an
+object don’t exist in Python. However, there is a convention that is followed
+by most Python code: a name prefixed with an underscore (e.g. _spam)
+should be treated as a non-public part of the API (whether it is a function,
+a method or a data member). It should be considered an implementation detail
+and subject to change without notice."
+
+DASH-Sim follows the same convention.
+
+4- IMPORTING PYTHON libraries and custom classes/functions
+
+Each files starts with importing classes/functions used therein.
+The convention is to import first built-in Python files.
+Then, the custom DASH-Sim files are imported after a blank line
+
+schedule = {}                                                                       //处理器分配结果，即调度结果
+TraceBack_ProcSel(task, Processor){
+    init threshold                                                                  //设定的阈值
+    if existing proc's end_time of executing task < task.sub-deadline:              //存在子截止时间内执行完毕的处理器
+        find minSchedule(task,proc) that minimize cost of adding task to proc       //在这些处理器中找最便宜的
+        schedule.add(minSchedule)                                                   //添加task的调度结果
+    else:                                                                           //不存在子截止时间内执行完毕的处理器
+        find minSchedule(task,proc) that minimize end_time of adding task to proc   //找最早执行完毕的处理器
+        if cal(end_time) < threshold:  //cal函数反映超时的程度，如果cal结果不超阈值就采取最早执行完毕时间的调度
+            schedule.add(minSchedule)  //添加task的调度结果，这里按最早执行完毕的方式进行调度
+        else:                                                                       //cal计算结果超出阈值，回溯
+            for pred in task.predecessors:                                          //找task的前驱节点
+                schedule.remove(Schedule of pred)                                   //在schedule里移除前驱节点的调度结果
+                //重新调度前驱节点，传入执行的处理器集合为不包含原先调度该pred节点的处理器
+                Trace_Back_Processor_Selection(pred, Processor without which executing pred originally)
+}
