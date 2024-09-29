@@ -5,4 +5,4 @@
 
 **Step3** Run "DASH_Sim_v0".
 
-The functions of "ULS_cpp/main.cpp" and "ULS.py" are implemented in the same way. The latter is proposed only for scalability evaluation. 
+Note that the implementation of scheduling algorithms (e.g., ULS) in C++ is functionally equivalent to that in Python. It is introduced for scalability evaluation.
