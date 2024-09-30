@@ -1,7 +1,7 @@
 # ULS
-**Step1** Input the relavant parameters in "config_file.ini".
+**Step1** Set the relavant parameters in "config_file.ini".
 
-**Step2** Redirect the output paths in "processing_element.py", "job_generator.py" and "ULS.py".
+**Step2** Set the output paths in "processing_element.py", "job_generator.py" and "ULS.py".
 
 **Step3** Run "DASH_Sim_v0".
 
