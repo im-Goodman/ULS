@@ -469,15 +469,15 @@ double findReadyTime(int& node, double avgComm, int& time_offset, int& root_node
     }
     return -1;
 }
-
+string path = "C:/Users/32628/Desktop";
 int main() {
     Graph graph;
-    graph.readFromFile("C:/Users/32628/Desktop/dag.txt");
+    graph.readFromFile(path + "/dag.txt");
     vector<int> sorted_nodes;
-    vector<int> overtimes = load1("C:/Users/32628/Desktop/overtime.txt");
+    vector<int> overtimes = load1(path + "/overtime.txt");
 
 
-    ifstream file("C:/Users/32628/Desktop/_self.txt");
+    ifstream file(path + "/_self.txt");
 
     vector<vector<double>> communicationMatrix;
     unordered_map<int, vector<ScheduleEvent>> procSchedules;
@@ -673,10 +673,10 @@ int main() {
 
     file.close();
 
-    unordered_map<int, NodeInfo> dict1 = getDict("C:/Users/32628/Desktop/dict1.txt");
-    unordered_map<int, NodeInfo> dict2 = getDict("C:/Users/32628/Desktop/dict2.txt");
+    unordered_map<int, NodeInfo> dict1 = getDict(path + "/dict1.txt");
+    unordered_map<int, NodeInfo> dict2 = getDict(path + "/dict2.txt");
 
-    ifstream file2("C:/Users/32628/Desktop/task_schedules.txt");
+    ifstream file2(path + "/task_schedules.txt");
 
     string content((istreambuf_iterator<char>(file2)), istreambuf_iterator<char>());
 
@@ -831,10 +831,10 @@ int main() {
         }
     }
 
-    output("C:/Users/32628/Desktop/dictOutput.txt", dict_output);
-    output1("C:/Users/32628/Desktop/procSchedules.txt", procSchedules);
-    output2("C:/Users/32628/Desktop/taskSchedules.txt", taskSchedules);
-    output3("C:/Users/32628/Desktop/runtime.txt", duration1);
-    output4("C:/Users/32628/Desktop/texit1.txt", texit);
+    output(path + "/dictOutput.txt", dict_output);
+    output1(path + "/procSchedules.txt", procSchedules);
+    output2(path + "/taskSchedules.txt", taskSchedules);
+    output3(path + "/runtime.txt", duration1);
+    output4(path + "/texit1.txt", texit);
     return 0;
 }
