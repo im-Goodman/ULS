@@ -6,5 +6,5 @@
 **Step3** Recompile "ULS_cpp/main.cpp".
 
 **Step4** Run "DASH_Sim_v0".
-
-Note that the implementation of scheduling algorithms (e.g., ULS) in C++ is functionally equivalent to that in Python. It is introduced for scalability evaluation.
+ 
+Note that the implementation of scheduling algorithms (e.g., ULS) in C++ is functionally equivalent to that in Python. It is introduced for scalability evaluation. It interacts with the Python-based framework by reading and writing files.
