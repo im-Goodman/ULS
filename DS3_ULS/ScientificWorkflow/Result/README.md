@@ -1,7 +1,9 @@
 # Scientific Workflow
 
-We conducted a small-scale experiment here, comparing ULS with the main baseline, HEFT_RT. 
+LIGO and Montage were constructed according to the structures of the corresponding scientific workflows.
 
-We selected two scientific workflows and Radar Correlation, and randomly injected 500 workflows to obtain the results shown in the figure. 
+A small-scale experiment was conducted here, comparing ULS with the main baseline, HEFT_RT. 
+
+Two scientific workflows and radar correlation were selected here, and 500 workflows were randomly injected to obtain the results shown in the figures.
 
 The conclusion is consistent with the paper.
