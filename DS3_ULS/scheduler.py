@@ -735,6 +735,10 @@ class Scheduler:
         if s == 0:
             if common.job_name_temp == 'WiFi_Transmitter':
                 deadline = 213
+            elif common.job_name_temp == 'LIGO':
+                deadline = 150
+            elif common.job_name_temp == 'Montage':
+                deadline = 120
             elif common.job_name_temp == 'WiFi_Receiver':
                 deadline = 873
             elif common.job_name_temp == 'Temporal_Mitigation':
@@ -746,6 +750,10 @@ class Scheduler:
         else:
             if common.job_name_temp == 'WiFi_Transmitter':
                 deadline = 142
+            elif common.job_name_temp == 'LIGO':
+                deadline = 120
+            elif common.job_name_temp == 'Montage':
+                deadline = 100
             elif common.job_name_temp == 'WiFi_Receiver':
                 deadline = 582
             elif common.job_name_temp == 'Temporal_Mitigation':

@@ -1,0 +1,111 @@
+# Configuration file of the WiFi_Transmitter
+# Lines that start with "#" are comments
+# Start with specifying the job name with keyword: job_name
+# Then, in the next line, add tasks using the keyword: add_new_tasks
+# After that the following three lines must have the attributes below
+# $task_name (string) $task_id (int) $task_predecessors (list)
+# $task_name (string) HEAD (TAIL), if the task is the head or tail of the task graph
+# $task_name (string) $earliest_start (int) $deadline (int)
+# The format: add_new_tasks $num_of_tasks (int)
+#             $task_name (string) $task_id (int) $task_predecessors (list)
+#             $task_name (string) HEAD (string)
+#             $task_name (string) $earliest_start (int) $deadline (int)
+# Example: The following lines add a new task with ID=0, and
+#          there is no predecessor for this task
+#          (empty list means there is no dependency)
+#          This task is the head of the task graph
+#          earliest start time and deadline are 0 and 10, respectively
+#
+#          add_new_tasks 1
+#          scrambler 0
+#          scrambler HEAD
+#          scrambler earliest_start 0 deadline 10
+#
+# After adding tasks, use keyword comm_vol to add communication volume for
+# the tasks that have dependencies
+# The format: comm_vol $source_id (int) $destination_id (int) volume (int)
+# Example: The following line adds communication volume between task 0 (source)
+#          and task 1 (destination)
+#
+#          comm_vol 0 1 5
+
+job_name Montage
+add_new_tasks 20
+scrambler_encoder 0
+scrambler_encoder HEAD
+scrambler_encoder earliest_start 0 deadline 500
+interleaver_1 1 0
+interleaver_1 earliest_start 0 deadline 500
+interleaver_1 2 0
+interleaver_1 earliest_start 0 deadline 500
+interleaver_1 3 0
+interleaver_1 earliest_start 0 deadline 500
+interleaver_1 4 0
+interleaver_1 earliest_start 0 deadline 500
+qpsk_1 5 1
+qpsk_1 earliest_start 0 deadline 500
+qpsk_1 6 1 2
+qpsk_1 earliest_start 0 deadline 500
+qpsk_1 7 2 3
+qpsk_1 earliest_start 0 deadline 500
+qpsk_1 8 3 4
+qpsk_1 earliest_start 0 deadline 500
+qpsk_1 9 4
+qpsk_1 earliest_start 0 deadline 500
+qpsk_1 10 4
+qpsk_1 earliest_start 0 deadline 500
+pilot_insertion_1 11 5 6 7 8 9 10
+pilot_insertion_1 earliest_start 0 deadline 500
+ifft_1 12 11
+ifft_1 earliest_start 0 deadline 500
+crc_1 13 1 12
+crc_1 earliest_start 0 deadline 500
+crc_1 14 2 12
+crc_1 earliest_start 0 deadline 500
+crc_1 15 3 12
+crc_1 earliest_start 0 deadline 500
+crc_1 16 4 12
+crc_1 earliest_start 0 deadline 500
+interleaver_2 17 13 14 15 16
+interleaver_2 earliest_start 0 deadline 500
+interleaver_2 18 17
+interleaver_2 earliest_start 0 deadline 500
+end 19 18
+end TAIL
+end earliest_start 0 deadline 500
+
+
+comm_vol 0 1 1
+comm_vol 0 2 1
+comm_vol 0 3 1
+comm_vol 0 4 1
+comm_vol 1 5 100
+comm_vol 1 6 100
+comm_vol 1 13 100
+comm_vol 2 6 100
+comm_vol 2 7 100
+comm_vol 2 14 100
+comm_vol 3 7 100
+comm_vol 3 8 100
+comm_vol 3 15 100
+comm_vol 4 8 100
+comm_vol 4 9 100
+comm_vol 4 10 100
+comm_vol 4 16 100
+comm_vol 5 11 100
+comm_vol 6 11 100
+comm_vol 7 11 100
+comm_vol 8 11 100
+comm_vol 9 11 100
+comm_vol 10 11 100
+comm_vol 11 12 100
+comm_vol 12 13 100
+comm_vol 12 14 100
+comm_vol 12 15 100
+comm_vol 12 16 100
+comm_vol 13 17 100
+comm_vol 14 17 100
+comm_vol 15 17 100
+comm_vol 16 17 100
+comm_vol 17 18 100
+comm_vol 18 19 1
