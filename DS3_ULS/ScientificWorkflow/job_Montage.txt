@@ -1,34 +1,3 @@
-# Configuration file of the WiFi_Transmitter
-# Lines that start with "#" are comments
-# Start with specifying the job name with keyword: job_name
-# Then, in the next line, add tasks using the keyword: add_new_tasks
-# After that the following three lines must have the attributes below
-# $task_name (string) $task_id (int) $task_predecessors (list)
-# $task_name (string) HEAD (TAIL), if the task is the head or tail of the task graph
-# $task_name (string) $earliest_start (int) $deadline (int)
-# The format: add_new_tasks $num_of_tasks (int)
-#             $task_name (string) $task_id (int) $task_predecessors (list)
-#             $task_name (string) HEAD (string)
-#             $task_name (string) $earliest_start (int) $deadline (int)
-# Example: The following lines add a new task with ID=0, and
-#          there is no predecessor for this task
-#          (empty list means there is no dependency)
-#          This task is the head of the task graph
-#          earliest start time and deadline are 0 and 10, respectively
-#
-#          add_new_tasks 1
-#          scrambler 0
-#          scrambler HEAD
-#          scrambler earliest_start 0 deadline 10
-#
-# After adding tasks, use keyword comm_vol to add communication volume for
-# the tasks that have dependencies
-# The format: comm_vol $source_id (int) $destination_id (int) volume (int)
-# Example: The following line adds communication volume between task 0 (source)
-#          and task 1 (destination)
-#
-#          comm_vol 0 1 5
-
 job_name Montage
 add_new_tasks 20
 scrambler_encoder 0
