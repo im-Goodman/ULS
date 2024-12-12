@@ -1,8 +1,5 @@
 # Scientific Workflow
-LIGO and Montage are constructed according to the structures of the corresponding scientific workflows.
+We have adapted the LIGO and Montage scientific workflows from the Pegasus project to the DS3 simulator. 
+LIGO and Montage workflows include 42 and 20 tasks, respectively, with complex structures.
 
-A small-scale experiment is conducted here, comparing ULS with HEFT_RT, the main baseline. 
-
-Two scientific workflows and Radar Correlation are selected here, and 500 workflows are randomly injected to obtain the results shown in the figures.
-
-The conclusion is consistent with the paper, highlighting the superiority of ULS.
+500 instances of the two scientific workflows and the Radar Correlation workflow are randomly injected to the HCS platform. ULS and HEFT_RT are used as the scheduling algorithms, and the experimental results in terms of DMR and OT are shown in the figures. 
